@@ -5,7 +5,7 @@ function RecepieCardImage() {
   return (
     <Card className='RecepieCardComponent RecepieCardImage'>
       <Card.Body>
-        <CardTitle>Mama's Meaty loaf Image</CardTitle>
+      <img src="Student-recepie-app\src\assets\download.png" alt="Placholder"/>
       </Card.Body>
     </Card>
   );

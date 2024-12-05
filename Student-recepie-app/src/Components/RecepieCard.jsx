@@ -14,7 +14,7 @@ function RecepieCard() {
         <RecepieCardTitle />
         <RecepieCardTags />
         </div>
-        <div className='RecepieCardTop'>
+        <div className='RecepieCardBot'>
         <RecepieCardDescription />
         <RecepieCardImage />
         </div>

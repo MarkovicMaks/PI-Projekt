@@ -20,8 +20,9 @@ body{
   color: var(--text);
 }
 
-.card {
-  padding: 2em;
+.RecepieNavbar{
+  background-color: var(--background);
+  border-bottom: 0.5px solid #d9c2a2;
 }
 
 .CardHolder{
@@ -36,19 +37,27 @@ body{
   margin: 30px;
   background-color: var(--background);
   border: 3px solid var(--primaryBackground) ;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
 }
 
 .RecepieCardComponent{
-  margin: 20px ;
+  margin: 10px ;
+  display: flex;
+  align-items: center; 
+  justify-content: center;
+  color: var(--text);
 }
 
-.RecepieCardTitle{
+.RecepieCardTitle {
   height: 50px;
   background-color: var(--secondary);
+  
 }
 
+
 .RecepieCardDescription{
-  height: 50px;
   background-color: var(--primaryBackground);
 }
 
@@ -65,5 +74,11 @@ body{
 .RecepieCardTop{
   display: flex;
   justify-content: center;
-  padding: 10px;
+
+}
+
+.RecepieCardBot{
+  display: flex;
+  justify-content: center;
+
 }

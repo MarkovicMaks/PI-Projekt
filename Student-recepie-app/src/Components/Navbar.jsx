@@ -5,18 +5,18 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 
 function RecepieNavbar() {
   return (
-    <Navbar expand="lg" className="bg-body-tertiary" bg="dark" data-bs-theme="dark">
+    <Navbar expand="lg" className="RecepieNavbar">
       <Container>
-        <Navbar.Brand href="#home">Frugal Feast</Navbar.Brand>
+        <Navbar.Brand href="#home" style={{color: "#f1f4f0"}}>Frugal Feast</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-            <Nav.Link href="#link">Meal Plans</Nav.Link>
+            <Nav.Link href="#link" style={{color: "#f1f4f0"}}>Meal Plans</Nav.Link>
           </Nav>
         </Navbar.Collapse>
         <Navbar.Collapse className="justify-content-end">
-          <Navbar.Text>
-            Signed in as: <a href="#login">Mark Otto</a>
+          <Navbar.Text style={{color: "#f1f4f0"}}>
+            Signed in as: <a href="#login" style={{color: "#f1f4f0"}}>Troy Barnes</a>
           </Navbar.Text>
         </Navbar.Collapse>
       </Container>
