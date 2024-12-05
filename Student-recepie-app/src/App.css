@@ -6,12 +6,12 @@
   --primary: #d9c2a2;
   --secondary: #3f7d24;
   --accent: #11d074;
-  max-width: 500 px;
+  max-width: 5000 px;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
   background-color: var(--background);
-
+  max-width: 1280px;
 }
 body{
   background-color: var(--background);
