@@ -11,12 +11,12 @@ function RecepieCard() {
     <Card className='RecepieCard'>
       <Card.Body>
         <div className='RecepieCardTop'>
-        <RecepieCardTitle/>
-        <RecepieCardTags/>
+        <RecepieCardTitle />
+        <RecepieCardTags />
         </div>
         <div className='RecepieCardTop'>
-        <RecepieCardDescription/>
-        <RecepieCardImage/>
+        <RecepieCardDescription />
+        <RecepieCardImage />
         </div>
       </Card.Body>
     </Card>

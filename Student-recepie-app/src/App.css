@@ -6,6 +6,8 @@
   --primary: #d9c2a2;
   --secondary: #3f7d24;
   --accent: #11d074;
+  --primaryBackground: #343327;
+  --secondaryBackground: #101b0c;
   margin: 0 auto;
   text-align: center;
   background-color: var(--background);
@@ -15,27 +17,53 @@
 
 body{
   background-color: var(--background);
+  color: var(--text);
 }
 
 .card {
   padding: 2em;
 }
 
-.read-the-docs {
-  color: #888;
-}
-
 .CardHolder{
   display: flex;
   justify-content: center;
+  
 }
 
 .RecepieCard{
+  color: var(--text);
   width: 60vw;
+  margin: 30px;
+  background-color: var(--background);
+  border: 3px solid var(--primaryBackground) ;
 }
+
+.RecepieCardComponent{
+  margin: 20px ;
+}
+
+.RecepieCardTitle{
+  height: 50px;
+  background-color: var(--secondary);
+}
+
+.RecepieCardDescription{
+  height: 50px;
+  background-color: var(--primaryBackground);
+}
+
+.RecepieCardTag{
+  height: 50px;
+  background-color: var(--secondaryBackground);
+}
+
+.RecepieCardImage{
+  height: 50px;
+  background-color: var(--primaryBackground);
+}
+
 .RecepieCardTop{
   display: flex;
   justify-content: center;
   padding: 10px;
-  margin: 10px;
 }

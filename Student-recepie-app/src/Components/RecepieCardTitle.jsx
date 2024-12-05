@@ -3,7 +3,7 @@ import CardTitle from 'react-bootstrap/esm/CardTitle';
 
 function RecepieCardTitle() {
   return (
-    <Card style={{ width: '18rem' }}>
+    <Card className='RecepieCardComponent RecepieCardTitle'>
       <Card.Body>
         <CardTitle>Mama's Meaty loaf</CardTitle>
       </Card.Body>
