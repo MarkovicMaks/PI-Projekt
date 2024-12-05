@@ -6,13 +6,13 @@
   --primary: #d9c2a2;
   --secondary: #3f7d24;
   --accent: #11d074;
-  max-width: 5000 px;
   margin: 0 auto;
-  padding: 2rem;
   text-align: center;
   background-color: var(--background);
-  max-width: 1280px;
+  width: 100%;
+  height: 100vh;
 }
+
 body{
   background-color: var(--background);
 }
@@ -23,4 +23,19 @@ body{
 
 .read-the-docs {
   color: #888;
+}
+
+.CardHolder{
+  display: flex;
+  justify-content: center;
+}
+
+.RecepieCard{
+  width: 60vw;
+}
+.RecepieCardTop{
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+  margin: 10px;
 }
