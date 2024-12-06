@@ -1,6 +1,5 @@
 import Card from 'react-bootstrap/Card';
 import CardText from 'react-bootstrap/esm/CardText';
-import CardTitle from 'react-bootstrap/esm/CardTitle';
 
 function RecepieCardDescription() {
   return (

@@ -7,7 +7,7 @@ function RecepieNavbar() {
   return (
     <Navbar expand="lg" className="RecepieNavbar">
       <Container>
-        <Navbar.Brand href="#home" style={{color: "#f1f4f0"}}>Frugal Feast</Navbar.Brand>
+        <Navbar.Brand href="#home"  className='TitleName'>Frugal Feast</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
