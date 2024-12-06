@@ -26,7 +26,6 @@ function FilterNavbar() {
             <NavDropdown.Item href="#action/3.3">Vegetarian</NavDropdown.Item>
           </NavDropdown>
           <NavDropdown title="Health" id="basic-nav-dropdown" className="DropdowonNavbar">
-            <NavDropdown.Item href="#action/3.1">Helth</NavDropdown.Item>
             <NavDropdown.Item href="#action/3.2">
               Healthy
             </NavDropdown.Item>

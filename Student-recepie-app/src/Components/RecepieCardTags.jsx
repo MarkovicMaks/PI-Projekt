@@ -1,13 +1,15 @@
 import Card from 'react-bootstrap/Card';
-import CardText from 'react-bootstrap/esm/CardText';
-import CardTitle from 'react-bootstrap/esm/CardTitle';
+import TypeTag from './TagComponents/TypeTag';
+import HealthTag from './TagComponents/HealthTag';
+import PriceTag from './TagComponents/PriceTag';
 
 function RecepieCardTags() {
   return (
     <Card className='RecepieCardComponent RecepieCardTag'>
       <Card.Body>
-        <CardText>Helthy</CardText>
-        
+        {/* <PriceTag/>
+        <TypeTag/>
+        <HealthTag/> */}
       </Card.Body>
     </Card>
   );
