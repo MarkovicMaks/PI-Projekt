@@ -25,22 +25,24 @@ body{
   border-bottom: 0.5px solid #d9c2a2;
 }
 
-.CardHolder{
+.CardHolder {
   display: flex;
-  justify-content: center;
-  
+  flex-direction: column; 
+  align-items: center;     
 }
 
-.RecepieCard{
+.RecepieCard {
   color: var(--text);
-  width: 60vw;
-  margin: 30px;
+  width: 60vw;          
+  max-width: 800px;   
+  margin: 20px 0;        
   background-color: var(--background);
-  border: 3px solid var(--primaryBackground) ;
+  border: 3px solid var(--primaryBackground);
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
 }
+
 
 .RecepieCardComponent{
   margin: 10px ;
@@ -51,7 +53,7 @@ body{
 }
 
 .RecepieCardTitle {
-  height: 50px;
+  height: 60px;
   background-color: var(--secondary);
   
 }
@@ -59,11 +61,29 @@ body{
 
 .RecepieCardDescription{
   background-color: var(--primaryBackground);
+  width: 30vw;
 }
 
 .RecepieCardTag{
-  height: 50px;
+  height: 60px;
   background-color: var(--secondaryBackground);
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+}
+
+.RecepieCardTagBody{
+  display: flex;
+  justify-content: center;
+}
+
+.RecepieCardTagPart{
+  color: var(--text);
+  margin: 5px;
+  background-color: var(--secondaryBackground);
+  border: 2px solid var(--secondary);
+  border-radius: 25px;
+  padding: 3px 5px;
 }
 
 .RecepieCardImage{

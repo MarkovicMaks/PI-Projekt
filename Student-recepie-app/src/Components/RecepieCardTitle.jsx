@@ -5,7 +5,7 @@ function RecepieCardTitle() {
   return (
     <Card className='RecepieCardComponent RecepieCardTitle'>
       <Card.Body>
-        <CardTitle>Mama's Meaty loaf</CardTitle>
+        <h2>Mama's Meaty loaf</h2>
       </Card.Body>
     </Card>
   );

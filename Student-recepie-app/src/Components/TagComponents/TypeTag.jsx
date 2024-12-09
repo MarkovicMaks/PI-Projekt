@@ -1,7 +1,7 @@
 function TypeTag() {
     return (
-      <div>
-        <H2>Vegetarian</H2>
+      <div className="RecepieCardTagPart">
+        <h3>Vegetarian</h3>
       </div>
     );
   }

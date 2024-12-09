@@ -6,10 +6,10 @@ import PriceTag from './TagComponents/PriceTag';
 function RecepieCardTags() {
   return (
     <Card className='RecepieCardComponent RecepieCardTag'>
-      <Card.Body>
-        {/* <PriceTag/>
+      <Card.Body className='RecepieCardTagBody'>
+        <PriceTag/>
         <TypeTag/>
-        <HealthTag/> */}
+        <HealthTag/>
       </Card.Body>
     </Card>
   );

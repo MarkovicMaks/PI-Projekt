@@ -11,6 +11,8 @@ function HomePage() {
       <FilterNavbar/>
       <div className='CardHolder'>
       <RecepieCard/>
+      <RecepieCard/>
+      <RecepieCard/>
       </div>
       
     </>

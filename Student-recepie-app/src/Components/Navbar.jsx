@@ -11,7 +11,7 @@ function RecepieNavbar() {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-            <Nav.Link href="#link" style={{color: "#f1f4f0"}}>Meal Plans</Nav.Link>
+            <Nav.Link href="#link" style={{color: "#f1f4f0"}}>My recepies</Nav.Link>
           </Nav>
         </Navbar.Collapse>
         <Navbar.Collapse className="justify-content-end">
