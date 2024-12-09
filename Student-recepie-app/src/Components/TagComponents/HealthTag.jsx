@@ -1,7 +1,7 @@
 function HealthTag() {
     return (
-      <div>
-        <H2>Comfort</H2>
+      <div className="RecepieCardTagPart">
+        <h3>Comfort</h3>
       </div>
     );
   }

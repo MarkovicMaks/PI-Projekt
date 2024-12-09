@@ -8,7 +8,8 @@ import RecepieCardImage from './RecepieCardImage';
 
 function RecepieCard() {
   return (
-    <Card className='RecepieCard'>
+    <a>
+      <Card className='RecepieCard'>
       <Card.Body>
         <div className='RecepieCardTop'>
         <RecepieCardTitle />
@@ -20,6 +21,7 @@ function RecepieCard() {
         </div>
       </Card.Body>
     </Card>
+    </a>
   );
 }
 
