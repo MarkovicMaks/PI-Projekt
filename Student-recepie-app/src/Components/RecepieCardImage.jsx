@@ -1,13 +1,19 @@
-import Card from 'react-bootstrap/Card';
-import CardTitle from 'react-bootstrap/esm/CardTitle';
+
+import Figure from 'react-bootstrap/Figure';
 
 function RecepieCardImage() {
   return (
-    <Card className='RecepieCardComponent RecepieCardImage'>
-      <Card.Body>
-      <img src="Student-recepie-app\src\assets\download.png" alt="Placholder"/>
-      </Card.Body>
-    </Card>
+    <Figure>
+      <Figure.Image
+        width={300}
+        height={300}
+        alt="171x180"
+        src="holder.js/171x180"
+      />
+      <Figure.Caption>
+        Nulla vitae elit libero, a pharetra augue mollis interdum.
+      </Figure.Caption>
+    </Figure>
   );
 }
 

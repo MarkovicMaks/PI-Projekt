@@ -1,11 +1,13 @@
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
+import CardTitle from "react-bootstrap/esm/CardTitle";
 
-function LoginWindow() {
+function RegertrationWindow() {
   return (
     <Card style={{ width: "18rem" }} className="LoginContainer">
       <Card.Body>
+        <CardTitle>Sign Up</CardTitle>
         <Form>
           <Form.Group className="mb-3" controlId="formBasicEmail">
             <Form.Label style={{color: "#f1f4f0"}}>Username</Form.Label>
@@ -25,4 +27,4 @@ function LoginWindow() {
   );
 }
 
-export default LoginWindow;
+export default RegertrationWindow;

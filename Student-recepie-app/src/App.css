@@ -138,3 +138,30 @@ body{
   background-image: url('./assets/blob2-scene-haikei.svg');
   overflow: hidden;
   }
+
+  .LoginCardHolder{
+    height: 90vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .LoginContainer{
+    background-color: var(--background);
+    border: 3px solid var(--primaryBackground);
+    
+  }
+
+  .LoginInput{
+    color: var(--text);
+    margin: 5px;
+    background-color: var(--secondaryBackground) !important; 
+    border: 0.5px solid var(--secondary);
+    
+  }
+
+  .GenericButon{
+    background-color: var(--secondary);
+    border: 3px solid var(--accent);
+  }
