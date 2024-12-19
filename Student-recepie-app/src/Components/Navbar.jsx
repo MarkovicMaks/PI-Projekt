@@ -14,7 +14,7 @@ function RecepieNavbar() {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
             {/* <Nav.Link href="#link" style={{color: "#f1f4f0"}}>My recepies</Nav.Link> */}
-            <Nav.Link href="/myRecepies" style={{color: "#f1f4f0"}}>My Recepies</Nav.Link>
+            <Nav.Link href="/myrecepie" style={{color: "#f1f4f0"}}>My Recepies</Nav.Link>
           </Nav>
         </Navbar.Collapse>
         <Navbar.Collapse className="justify-content-end">
