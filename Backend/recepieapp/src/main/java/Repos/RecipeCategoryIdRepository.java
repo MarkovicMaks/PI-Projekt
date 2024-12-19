@@ -5,6 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface RecipeCategoryRepository extends JpaRepository<Category, Integer> {
+public interface RecipeCategoryIdRepository extends JpaRepository<Category, Integer> {
     // Add custom query methods if needed
 }
