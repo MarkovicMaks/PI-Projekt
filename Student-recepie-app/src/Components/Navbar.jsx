@@ -15,9 +15,19 @@ function RecepieNavbar() {
           </Nav>
         </Navbar.Collapse>
         <Navbar.Collapse className="justify-content-end">
-          <Navbar.Text style={{color: "#f1f4f0"}}>
+          {/* <NavDropdown title="Link" id="navbarScrollingDropdown">
+              <NavDropdown.Item href="#action3">Login</NavDropdown.Item>
+              <NavDropdown.Item href="#action4">
+                Sign Up
+              </NavDropdown.Item>
+              <NavDropdown.Divider />
+              <NavDropdown.Item href="#action5">
+                Something else here
+              </NavDropdown.Item>
+            </NavDropdown> */}
+          {/* <Navbar.Text style={{color: "#f1f4f0"}}>
             Signed in as: <a href="#login" style={{color: "#f1f4f0"}}>Troy Barnes</a>
-          </Navbar.Text>
+          </Navbar.Text> */}
         </Navbar.Collapse>
       </Container>
     </Navbar>

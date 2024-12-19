@@ -6,6 +6,8 @@ import Register from './Pages/signUp'
 import Login from './Pages/login'
 import { BrowserRouter, Routes, Route } from "react-router";
 import 'bootstrap/dist/js/bootstrap.bundle.min.js'
+import RecepieCard from './Components/RecepieCard'
+import RecepieCreation from './Pages/RecepieCreation'
 
 
 createRoot(document.getElementById('root')).render(
@@ -16,6 +18,7 @@ createRoot(document.getElementById('root')).render(
       
       <Route path="login" element={<Login />} />
       <Route path="register" element={<Register />} />
+      <Route path="create" element={<RecepieCreation />} />
       
     </Routes>
     </BrowserRouter>
