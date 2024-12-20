@@ -5,7 +5,7 @@ import LoginWindow from "../Components/LoginWindow";
 function Login() {
   return (
     <>
-      <div className="SvgBackground">
+      <div className="SvgBackground LoginBackgroundimage">
         <RecepieNavbar />
         <div className="LoginCardHolder">
           <LoginWindow />

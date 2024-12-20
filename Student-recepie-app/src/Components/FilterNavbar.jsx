@@ -33,6 +33,9 @@ function FilterNavbar() {
             <NavDropdown.Item href="#action/3.3">Comfort</NavDropdown.Item>
           </NavDropdown>
         </Navbar.Collapse>
+        <Navbar.Collapse className="justify-content-end">
+          <NavDropdown.Item href="/create" className="GenericButon" style={{width: "200px"}}>New Recipeie</NavDropdown.Item>
+        </Navbar.Collapse>
       </Container>
     </Navbar>
   );

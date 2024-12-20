@@ -134,10 +134,14 @@ body{
   height: 100vh;
   background-repeat: no-repeat;
   background-position: center;
-  background-size: cover;
-  background-image: url('./assets/blob2-scene-haikei.svg');
-  overflow: hidden;
+  background-size: cover;overflow: hidden;
   }
+.LoginBackgroundimage{
+  background-image: url('./assets/blob2-scene-haikei.svg');
+}
+.createBackgroundImege{
+  background-image: url('./assets/stacked-waves-haikei.svg');
+}
 
   .LoginCardHolder{
     height: 90vh;
@@ -164,4 +168,5 @@ body{
   .GenericButon{
     background-color: var(--secondary);
     border: 3px solid var(--accent);
+    color: var(--text);
   }

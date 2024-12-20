@@ -7,7 +7,7 @@ function RegertrationWindow() {
   return (
     <Card style={{ width: "18rem" }} className="LoginContainer">
       <Card.Body>
-        <CardTitle>Sign Up</CardTitle>
+        <CardTitle style={{color: "#f1f4f0"}}>Sign Up</CardTitle>
         <Form>
           <Form.Group className="mb-3" controlId="formBasicEmail">
             <Form.Label style={{color: "#f1f4f0"}}>Username</Form.Label>

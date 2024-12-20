@@ -1,13 +1,16 @@
-import React from 'react';
-import '../App.css'
-import RecepieNavbar from '../Components/Navbar';
+import React from "react";
+import "../App.css";
+import RecepieNavbar from "../Components/Navbar";
+import CreateWindow from "../Components/CreateRecepie";
 
 function RecepieCreation() {
   return (
-    <>
-      <RecepieNavbar/>
-      
-    </>
+    <div className="SvgBackground createBackgroundImege">
+      <RecepieNavbar />
+      <div className='LoginCardHolder'>
+        <CreateWindow/>
+      </div>
+    </div>
   );
 }
 

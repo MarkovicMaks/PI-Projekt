@@ -6,7 +6,7 @@ import RegertrationWindow from "../Components/RegistrationWindow";
 function Register() {
   return (
     <>
-      <div className="SvgBackground">
+      <div className="SvgBackground LoginBackgroundimage">
         <RecepieNavbar />
         <div className="LoginCardHolder">
           <RegertrationWindow />
