@@ -1,4 +1,4 @@
-package MaksMarkovic.Algebra.StudentRecepieApp;
+package MaksMarkovic.Algebra.StudentRecepieApp.models;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;

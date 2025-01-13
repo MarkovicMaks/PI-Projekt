@@ -1,4 +1,4 @@
-package MaksMarkovic.Algebra.StudentRecepieApp;
+package MaksMarkovic.Algebra.StudentRecepieApp.models;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -17,7 +17,7 @@ public class Recipe {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id", nullable = false)
-    private MaksMarkovic.Algebra.StudentRecepieApp.User user;
+    private User user;
 
     @Column(name = "title", nullable = false, length = Integer.MAX_VALUE)
     private String title;

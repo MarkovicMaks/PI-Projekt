@@ -1,4 +1,4 @@
-package MaksMarkovic.Algebra.StudentRecepieApp;
+package MaksMarkovic.Algebra.StudentRecepieApp.models;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -15,7 +15,7 @@ public class RecipeIngredient {
     @MapsId("recipeId")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "recipe_id", nullable = false)
-    private MaksMarkovic.Algebra.StudentRecepieApp.Recipe recipe;
+    private Recipe recipe;
 
     @MapsId("ingredientId")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
