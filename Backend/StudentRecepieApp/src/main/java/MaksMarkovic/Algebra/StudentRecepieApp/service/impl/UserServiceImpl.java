@@ -11,10 +11,14 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@RequiredArgsConstructor // Lombok auto-generates constructor for final fields
+
 public class UserServiceImpl implements UserService {
 
     private final UserRepo userRepo; // Lombok initializes this
+
+    public UserServiceImpl(UserRepo userRepo) {  // <-- Manually inject UserService
+        this.userRepo = userRepo;
+    }
 
     @Override
     public List<User> getAllUsers() {

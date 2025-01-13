@@ -12,10 +12,14 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/users")
 @CrossOrigin(origins = "http://localhost:3000")
-@RequiredArgsConstructor
+
 public class UserController {
 
     private final UserService userService;
+
+    public UserController(UserService userService) {  // <-- Manually inject UserService
+        this.userService = userService;
+    }
 
     @GetMapping
     public ResponseEntity<List<User>> getAllUsers() {
