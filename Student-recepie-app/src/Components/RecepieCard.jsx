@@ -17,7 +17,7 @@ function RecepieCard() {
         </div>
         <div className='RecepieCardBot'>
         <RecepieCardDescription />
-        <RecepieCardImage />
+        
         </div>
       </Card.Body>
     </Card>

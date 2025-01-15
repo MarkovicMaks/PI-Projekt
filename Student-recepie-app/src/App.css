@@ -55,13 +55,12 @@ body{
 .RecepieCardTitle {
   height: 60px;
   background-color: var(--secondary);
-  
 }
 
 
 .RecepieCardDescription{
   background-color: var(--primaryBackground);
-  width: 30vw;
+  width: 50vw;
 }
 
 .RecepieCardTag{
@@ -169,4 +168,5 @@ body{
     background-color: var(--secondary);
     border: 3px solid var(--accent);
     color: var(--text);
+    border-radius: 10px;
   }
