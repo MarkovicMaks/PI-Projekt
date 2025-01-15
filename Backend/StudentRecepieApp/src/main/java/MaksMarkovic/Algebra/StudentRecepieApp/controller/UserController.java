@@ -2,7 +2,6 @@ package MaksMarkovic.Algebra.StudentRecepieApp.controller;
 
 import MaksMarkovic.Algebra.StudentRecepieApp.models.User;
 import MaksMarkovic.Algebra.StudentRecepieApp.service.UserService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
