@@ -42,7 +42,6 @@ function HomePage() {
             priceTag={recipe.priceTag}
             healthTag={recipe.healthTag}
             preferenceTag={recipe.preferenceTag}
-            createdAt={recipe.createdAt}
           />
         ))}
       </div>

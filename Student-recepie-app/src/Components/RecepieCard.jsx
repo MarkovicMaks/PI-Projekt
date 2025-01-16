@@ -9,7 +9,6 @@ function RecepieCard({
   priceTag,
   healthTag,
   preferenceTag,
-  createdAt,
 }) {
   return (
     <a>
@@ -24,7 +23,7 @@ function RecepieCard({
             />
           </div>
           <div className="RecepieCardBot">
-            <RecepieCardDescription />
+            <RecepieCardDescription title={description}/>
           </div>
         </Card.Body>
       </Card>
