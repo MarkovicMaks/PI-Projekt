@@ -1,26 +1,33 @@
-import Card from 'react-bootstrap/Card';
-import RecepieCardTitle from './RecepieCardTitle';
-import RecepieCardDescription from './RecepieCardDescription';
-import RecepieCardTags from './RecepieCardTags';
-import RecepieCardImage from './RecepieCardImage';
+import Card from "react-bootstrap/Card";
+import RecepieCardTitle from "./RecepieCardTitle";
+import RecepieCardDescription from "./RecepieCardDescription";
+import RecepieCardTags from "./RecepieCardTags";
 
-
-
-function RecepieCard() {
+function RecepieCard({
+  title,
+  description,
+  priceTag,
+  healthTag,
+  preferenceTag,
+  createdAt,
+}) {
   return (
     <a>
-      <Card className='RecepieCard'>
-      <Card.Body>
-        <div className='RecepieCardTop'>
-        <RecepieCardTitle />
-        <RecepieCardTags />
-        </div>
-        <div className='RecepieCardBot'>
-        <RecepieCardDescription />
-        
-        </div>
-      </Card.Body>
-    </Card>
+      <Card className="RecepieCard">
+        <Card.Body>
+          <div className="RecepieCardTop">
+            <RecepieCardTitle title={title} />
+            <RecepieCardTags
+              priceTag={priceTag}
+              healthTag={healthTag}
+              preferenceTag={preferenceTag}
+            />
+          </div>
+          <div className="RecepieCardBot">
+            <RecepieCardDescription />
+          </div>
+        </Card.Body>
+      </Card>
     </a>
   );
 }

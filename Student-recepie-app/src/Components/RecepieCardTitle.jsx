@@ -1,11 +1,11 @@
 import Card from 'react-bootstrap/Card';
 import CardTitle from 'react-bootstrap/esm/CardTitle';
 
-function RecepieCardTitle() {
+function RecepieCardTitle({ title}) {
   return (
     <Card className='RecepieCardComponent RecepieCardTitle'>
       <Card.Body>
-        <h2>Mama's Meaty loaf</h2>
+        <h3>{ title }</h3>
       </Card.Body>
     </Card>
   );

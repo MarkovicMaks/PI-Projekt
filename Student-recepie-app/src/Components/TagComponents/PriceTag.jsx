@@ -1,7 +1,9 @@
-function PriceTag() {
+function PriceTag({
+  priceTag
+}) {
     return (
       <div className="RecepieCardTagPart">
-        <h3>$$$</h3>
+        <h3>{priceTag}</h3>
       </div>
     );
   }

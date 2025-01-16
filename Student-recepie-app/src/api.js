@@ -1,7 +1,8 @@
 import axios from "axios";
 
 // Base URL for your backend API
-const API_URL = "http://localhost:8080/api/recipes";
+const API_URL = "http://localhost:8080/api/recipes"; 
+
 
 // Fetch all recipes
 export const getAllRecipes = async () => {

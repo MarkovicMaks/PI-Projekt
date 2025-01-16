@@ -3,11 +3,15 @@ import TypeTag from './TagComponents/TypeTag';
 import HealthTag from './TagComponents/HealthTag';
 import PriceTag from './TagComponents/PriceTag';
 
-function RecepieCardTags() {
+function RecepieCardTags({
+  priceTag,
+  healthTag,
+  preferenceTag,
+}) {
   return (
     <Card className='RecepieCardComponent RecepieCardTag'>
       <Card.Body className='RecepieCardTagBody'>
-        <PriceTag/>
+        <PriceTag priceTag={priceTag}/>
         <TypeTag/>
         <HealthTag/>
       </Card.Body>
