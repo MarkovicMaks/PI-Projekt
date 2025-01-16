@@ -25,8 +25,8 @@ function HomePage() {
     fetchRecipes();
   }, []); // Empty dependency array ensures this runs only once on component mount
 
-  if (loading) return <p>Loading recipes...</p>; // Show loading text while fetching
-  if (error) return <p>Error: {error}</p>; // Show error message if fetching fails
+  if (loading) return <h1>Loading recipes...</h1>; // Show loading text while fetching
+  if (error) return <h1>Error: {error}</h1>; // Show error message if fetching fails
 
   return (
     <>

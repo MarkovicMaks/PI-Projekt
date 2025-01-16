@@ -28,7 +28,7 @@ public class RecipeControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
-    
+
 
     @Autowired
     private ObjectMapper objectMapper;
