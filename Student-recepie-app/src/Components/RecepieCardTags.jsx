@@ -12,8 +12,8 @@ function RecepieCardTags({
     <Card className='RecepieCardComponent RecepieCardTag'>
       <Card.Body className='RecepieCardTagBody'>
         <PriceTag priceTag={priceTag}/>
-        <TypeTag/>
-        <HealthTag/>
+        <TypeTag preferenceTag={preferenceTag}/>
+        <HealthTag healthTag={healthTag}/>
       </Card.Body>
     </Card>
   );

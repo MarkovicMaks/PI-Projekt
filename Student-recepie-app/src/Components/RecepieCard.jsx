@@ -23,7 +23,7 @@ function RecepieCard({
             />
           </div>
           <div className="RecepieCardBot">
-            <RecepieCardDescription title={description}/>
+            <RecepieCardDescription description={description}/>
           </div>
         </Card.Body>
       </Card>

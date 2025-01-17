@@ -35,6 +35,9 @@ public class Recipe {
     public Recipe() {
     }
 
+    public Recipe(int recipeId, String testRecipe, String testDescription) {
+    }
+
     public Integer getId() {
         return id;
     }

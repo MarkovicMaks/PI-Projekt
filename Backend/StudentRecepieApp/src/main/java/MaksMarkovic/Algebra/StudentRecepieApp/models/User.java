@@ -31,6 +31,14 @@ public class User {
     @Column(name = "role", nullable = false, length = 50)
     private String role;
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void  setId(Integer id) {
+        this.id = id;
+    }
+
     public String getFullName() {
         return fullName;
     }
