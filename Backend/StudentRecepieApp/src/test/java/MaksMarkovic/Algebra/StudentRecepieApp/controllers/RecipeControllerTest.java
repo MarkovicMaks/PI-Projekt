@@ -54,7 +54,7 @@ class RecipeControllerTest {
 
     @Test
     void getRecipeById_NotFound() throws Exception {
-        int recipeId = 12;
+        int recipeId = 11;
         Mockito.when(recipeService.getRecipeById(recipeId)).thenReturn(Optional.empty());
 
         mockMvc.perform(get("/api/recipes/" + recipeId)
