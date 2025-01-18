@@ -19,12 +19,13 @@ public class RecipeIngredientTest {
 
 
     @Test
-    @DisplayName("Test setting and getting Recipe")
-    public void testSetAndGetRecipe() {
+    @DisplayName("Test setting and getting Recipe using Builder")
+    public void testSetAndGetRecipeUsingBuilder() {
         // Given
-        Recipe recipe = new Recipe();
-        recipe.setId(1);
-        recipe.setTitle("Healthy Salad");
+        Recipe recipe = new Recipe.Builder()
+                .id(1)
+                .title("Healthy Salad")
+                .build();
 
         // When
         recipeIngredient.setRecipe(recipe);

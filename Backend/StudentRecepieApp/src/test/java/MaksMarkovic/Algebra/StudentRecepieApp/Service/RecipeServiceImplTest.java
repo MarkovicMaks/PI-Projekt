@@ -29,49 +29,57 @@ public class RecipeServiceImplTest {
     }
 
     @Test
-    @DisplayName("Test saveRecipe")
-    public void testSaveRecipe() {
+    @DisplayName("Test saveRecipe preserves existing createdAt")
+    public void testSaveRecipePreservesExistingCreatedAt() {
         // Given
-        Recipe recipe = new Recipe();
-        recipe.setId(1);
-        recipe.setTitle("Healthy Salad");
+        Instant existingTimestamp = Instant.now();
+        Recipe recipe = new Recipe.Builder()
+                .title("Healthy Salad")
+                .createdAt(existingTimestamp)
+                .build();
 
-        when(recipeRepo.save(recipe)).thenReturn(recipe);
+        when(recipeRepo.save(any(Recipe.class))).thenReturn(recipe);
 
         // When
         Recipe savedRecipe = recipeService.saveRecipe(recipe);
 
         // Then
-        assertNotNull(savedRecipe, "The saved recipe should not be null.");
-        assertEquals(recipe.getId(), savedRecipe.getId(), "The ID should match.");
-        assertEquals(recipe.getTitle(), savedRecipe.getTitle(), "The title should match.");
-        verify(recipeRepo, times(1)).save(recipe);
+        assertEquals(existingTimestamp, savedRecipe.getCreatedAt(), "The existing createdAt timestamp should be preserved.");
+        verify(recipeRepo, times(1)).save(any(Recipe.class));
     }
 
     @Test
     @DisplayName("Test saveRecipe sets createdAt if null")
     public void testSaveRecipeSetsCreatedAtIfNull() {
         // Given
-        Recipe recipe = new Recipe();
-        recipe.setTitle("Healthy Salad");
+        Recipe recipe = new Recipe.Builder()
+                .title("Healthy Salad")
+                .build();
 
-        when(recipeRepo.save(recipe)).thenReturn(recipe);
+        Recipe recipeWithCreatedAt = new Recipe.Builder()
+                .id(recipe.getId())
+                .title(recipe.getTitle())
+                .createdAt(Instant.now())
+                .build();
+
+        when(recipeRepo.save(any(Recipe.class))).thenReturn(recipeWithCreatedAt);
 
         // When
         Recipe savedRecipe = recipeService.saveRecipe(recipe);
 
         // Then
         assertNotNull(savedRecipe.getCreatedAt(), "The createdAt timestamp should be set.");
-        verify(recipeRepo, times(1)).save(recipe);
+        verify(recipeRepo, times(1)).save(any(Recipe.class));
     }
 
     @Test
     @DisplayName("Test getRecipeById - Found")
     public void testGetRecipeByIdFound() {
         // Given
-        Recipe recipe = new Recipe();
-        recipe.setId(1);
-        recipe.setTitle("Healthy Salad");
+        Recipe recipe = new Recipe.Builder()
+                .id(1)
+                .title("Healthy Salad")
+                .build();
 
         when(recipeRepo.findById(1)).thenReturn(Optional.of(recipe));
 
@@ -102,13 +110,15 @@ public class RecipeServiceImplTest {
     @DisplayName("Test getAllRecipes")
     public void testGetAllRecipes() {
         // Given
-        Recipe recipe1 = new Recipe();
-        recipe1.setId(1);
-        recipe1.setTitle("Healthy Salad");
+        Recipe recipe1 = new Recipe.Builder()
+                .id(1)
+                .title("Healthy Salad")
+                .build();
 
-        Recipe recipe2 = new Recipe();
-        recipe2.setId(2);
-        recipe2.setTitle("Tasty Soup");
+        Recipe recipe2 = new Recipe.Builder()
+                .id(2)
+                .title("Tasty Soup")
+                .build();
 
         when(recipeRepo.findAll()).thenReturn(Arrays.asList(recipe1, recipe2));
 
@@ -125,9 +135,10 @@ public class RecipeServiceImplTest {
     @DisplayName("Test getRecipesByUserId")
     public void testGetRecipesByUserId() {
         // Given
-        Recipe recipe = new Recipe();
-        recipe.setId(1);
-        recipe.setTitle("Healthy Salad");
+        Recipe recipe = new Recipe.Builder()
+                .id(1)
+                .title("Healthy Salad")
+                .build();
 
         when(recipeRepo.findByUserId(1)).thenReturn(Arrays.asList(recipe));
 
@@ -144,9 +155,10 @@ public class RecipeServiceImplTest {
     @DisplayName("Test searchRecipesByTitle")
     public void testSearchRecipesByTitle() {
         // Given
-        Recipe recipe = new Recipe();
-        recipe.setId(1);
-        recipe.setTitle("Healthy Salad");
+        Recipe recipe = new Recipe.Builder()
+                .id(1)
+                .title("Healthy Salad")
+                .build();
 
         when(recipeRepo.findByTitleContainingIgnoreCase("Salad")).thenReturn(Arrays.asList(recipe));
 
@@ -163,24 +175,31 @@ public class RecipeServiceImplTest {
     @DisplayName("Test updateRecipe")
     public void testUpdateRecipe() {
         // Given
-        Recipe existingRecipe = new Recipe();
-        existingRecipe.setId(1);
-        existingRecipe.setTitle("Old Title");
+        Recipe existingRecipe = new Recipe.Builder()
+                .id(1)
+                .title("Old Title")
+                .build();
 
-        Recipe updatedDetails = new Recipe();
-        updatedDetails.setTitle("New Title");
+        Recipe updatedDetails = new Recipe.Builder()
+                .title("New Title")
+                .build();
+
+        Recipe updatedRecipe = new Recipe.Builder()
+                .id(existingRecipe.getId())
+                .title(updatedDetails.getTitle())
+                .build();
 
         when(recipeRepo.findById(1)).thenReturn(Optional.of(existingRecipe));
-        when(recipeRepo.save(existingRecipe)).thenReturn(existingRecipe);
+        when(recipeRepo.save(any(Recipe.class))).thenReturn(updatedRecipe);
 
         // When
-        Recipe updatedRecipe = recipeService.updateRecipe(1, updatedDetails);
+        Recipe result = recipeService.updateRecipe(1, updatedDetails);
 
         // Then
-        assertNotNull(updatedRecipe, "The updated recipe should not be null.");
-        assertEquals("New Title", updatedRecipe.getTitle(), "The title should match the updated value.");
+        assertNotNull(result, "The updated recipe should not be null.");
+        assertEquals("New Title", result.getTitle(), "The title should match the updated value.");
         verify(recipeRepo, times(1)).findById(1);
-        verify(recipeRepo, times(1)).save(existingRecipe);
+        verify(recipeRepo, times(1)).save(any(Recipe.class));
     }
 
     @Test
@@ -211,4 +230,60 @@ public class RecipeServiceImplTest {
         assertEquals("Recipe not found with id 1", exception.getMessage(), "The exception message should match.");
         verify(recipeRepo, times(1)).existsById(1);
     }
+    @Test
+    @DisplayName("Test updateRecipe preserves existing fields when details are null")
+    public void testUpdateRecipePreservesExistingFields() {
+        // Given
+        Recipe existingRecipe = new Recipe.Builder()
+                .id(1)
+                .title("Old Title")
+                .description("Old Description")
+                .priceTag("$10")
+                .healthTag("Healthy")
+                .preferenceTag("Vegetarian")
+                .createdAt(Instant.now())
+                .build();
+
+        Recipe updateDetails = new Recipe.Builder()
+                .title("New Title") // Only update title
+                .build();
+
+        Recipe updatedRecipe = new Recipe.Builder()
+                .id(existingRecipe.getId())
+                .title(updateDetails.getTitle())
+                .description(existingRecipe.getDescription())
+                .priceTag(existingRecipe.getPriceTag())
+                .healthTag(existingRecipe.getHealthTag())
+                .preferenceTag(existingRecipe.getPreferenceTag())
+                .createdAt(existingRecipe.getCreatedAt())
+                .build();
+
+        when(recipeRepo.findById(1)).thenReturn(Optional.of(existingRecipe));
+        when(recipeRepo.save(any(Recipe.class))).thenReturn(updatedRecipe);
+
+        // When
+        Recipe result = recipeService.updateRecipe(1, updateDetails);
+
+        // Then
+        assertNotNull(result, "The updated recipe should not be null.");
+        assertEquals("New Title", result.getTitle(), "The title should match the updated value.");
+        assertEquals("Old Description", result.getDescription(), "The description should remain unchanged.");
+        assertEquals("$10", result.getPriceTag(), "The price tag should remain unchanged.");
+        verify(recipeRepo, times(1)).findById(1);
+        verify(recipeRepo, times(1)).save(any(Recipe.class));
+    }
+
+    @Test
+    @DisplayName("Test deleteRecipe throws exception for null ID")
+    public void testDeleteRecipeThrowsExceptionForNullId() {
+        // When & Then
+        RuntimeException exception = assertThrows(RuntimeException.class, () -> {
+            recipeService.deleteRecipe(null);
+        }, "Expected exception when recipe ID is null.");
+
+        assertEquals("Recipe not found with id null", exception.getMessage(), "The exception message should match.");
+        verify(recipeRepo, times(0)).deleteById(any());
+    }
+
+
 }

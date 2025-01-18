@@ -22,11 +22,19 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public Recipe saveRecipe(Recipe recipe) {
-        // Set creation timestamp if it's a new recipe
-        if (recipe.getCreatedAt() == null) {
-            recipe.setCreatedAt(Instant.now());
-        }
-        return recipeRepo.save(recipe);
+        // Use Builder to ensure immutability and set creation timestamp if necessary
+        Recipe builtRecipe = new Recipe.Builder()
+                .id(recipe.getId())
+                .user(recipe.getUser())
+                .title(recipe.getTitle())
+                .description(recipe.getDescription())
+                .priceTag(recipe.getPriceTag())
+                .healthTag(recipe.getHealthTag())
+                .preferenceTag(recipe.getPreferenceTag())
+                .createdAt(recipe.getCreatedAt() != null ? recipe.getCreatedAt() : Instant.now())
+                .build();
+
+        return recipeRepo.save(builtRecipe);
     }
 
     @Override
@@ -52,12 +60,19 @@ public class RecipeServiceImpl implements RecipeService {
     @Override
     public Recipe updateRecipe(Integer id, Recipe recipeDetails) {
         return recipeRepo.findById(id).map(existingRecipe -> {
-            existingRecipe.setTitle(recipeDetails.getTitle());
-            existingRecipe.setDescription(recipeDetails.getDescription());
-            existingRecipe.setPriceTag(recipeDetails.getPriceTag());
-            existingRecipe.setHealthTag(recipeDetails.getHealthTag());
-            existingRecipe.setPreferenceTag(recipeDetails.getPreferenceTag());
-            return recipeRepo.save(existingRecipe);
+            // Use Builder to create an updated recipe while preserving existing fields
+            Recipe updatedRecipe = new Recipe.Builder()
+                    .id(existingRecipe.getId())
+                    .user(existingRecipe.getUser())
+                    .title(recipeDetails.getTitle() != null ? recipeDetails.getTitle() : existingRecipe.getTitle())
+                    .description(recipeDetails.getDescription() != null ? recipeDetails.getDescription() : existingRecipe.getDescription())
+                    .priceTag(recipeDetails.getPriceTag() != null ? recipeDetails.getPriceTag() : existingRecipe.getPriceTag())
+                    .healthTag(recipeDetails.getHealthTag() != null ? recipeDetails.getHealthTag() : existingRecipe.getHealthTag())
+                    .preferenceTag(recipeDetails.getPreferenceTag() != null ? recipeDetails.getPreferenceTag() : existingRecipe.getPreferenceTag())
+                    .createdAt(existingRecipe.getCreatedAt())
+                    .build();
+
+            return recipeRepo.save(updatedRecipe);
         }).orElseThrow(() -> new RuntimeException("Recipe not found with id " + id));
     }
 

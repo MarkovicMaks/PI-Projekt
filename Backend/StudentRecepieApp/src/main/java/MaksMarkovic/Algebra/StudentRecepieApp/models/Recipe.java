@@ -32,73 +32,107 @@ public class Recipe {
     @Column(name = "created_at")
     private Instant createdAt;
 
-    public Recipe() {
+    // Public no-arg constructor for JPA
+    public Recipe() {}
+
+    // Private constructor for Builder
+    private Recipe(Builder builder) {
+        this.id = builder.id;
+        this.user = builder.user;
+        this.title = builder.title;
+        this.description = builder.description;
+        this.priceTag = builder.priceTag;
+        this.healthTag = builder.healthTag;
+        this.preferenceTag = builder.preferenceTag;
+        this.createdAt = builder.createdAt;
     }
 
-    public Recipe(int recipeId, String testRecipe, String testDescription) {
-    }
-
+    // Getters (No Setters to maintain immutability)
     public Integer getId() {
         return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public User getUser() {
         return user;
     }
 
-    public void setUser(User user) {
-        this.user = user;
-    }
-
     public String getTitle() {
         return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
     }
 
     public String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     public String getPriceTag() {
         return priceTag;
-    }
-
-    public void setPriceTag(String priceTag) {
-        this.priceTag = priceTag;
     }
 
     public String getHealthTag() {
         return healthTag;
     }
 
-    public void setHealthTag(String healthTag) {
-        this.healthTag = healthTag;
-    }
-
     public String getPreferenceTag() {
         return preferenceTag;
-    }
-
-    public void setPreferenceTag(String preferenceTag) {
-        this.preferenceTag = preferenceTag;
     }
 
     public Instant getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Instant createdAt) {
-        this.createdAt = createdAt;
+    // Builder class remains the same
+    public static class Builder {
+        private Integer id;
+        private User user;
+        private String title;
+        private String description;
+        private String priceTag;
+        private String healthTag;
+        private String preferenceTag;
+        private Instant createdAt;
+
+        public Builder id(Integer id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder user(User user) {
+            this.user = user;
+            return this;
+        }
+
+        public Builder title(String title) {
+            this.title = title;
+            return this;
+        }
+
+        public Builder description(String description) {
+            this.description = description;
+            return this;
+        }
+
+        public Builder priceTag(String priceTag) {
+            this.priceTag = priceTag;
+            return this;
+        }
+
+        public Builder healthTag(String healthTag) {
+            this.healthTag = healthTag;
+            return this;
+        }
+
+        public Builder preferenceTag(String preferenceTag) {
+            this.preferenceTag = preferenceTag;
+            return this;
+        }
+
+        public Builder createdAt(Instant createdAt) {
+            this.createdAt = createdAt;
+            return this;
+        }
+
+        public Recipe build() {
+            return new Recipe(this);
+        }
     }
 }

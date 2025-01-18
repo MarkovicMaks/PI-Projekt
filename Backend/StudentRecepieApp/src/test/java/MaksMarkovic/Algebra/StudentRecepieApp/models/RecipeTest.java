@@ -1,7 +1,5 @@
 package MaksMarkovic.Algebra.StudentRecepieApp.models;
 
-import MaksMarkovic.Algebra.StudentRecepieApp.models.Recipe;
-import MaksMarkovic.Algebra.StudentRecepieApp.models.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -17,17 +15,34 @@ public class RecipeTest {
 
     @BeforeEach
     public void setup() {
-        recipe = new Recipe();
+        // Use the builder to create a default Recipe instance
+        recipe = new Recipe.Builder()
+                .id(1)
+                .title("Default Title")
+                .description("Default Description")
+                .priceTag("$0")
+                .healthTag("Healthy")
+                .preferenceTag("Vegetarian")
+                .createdAt(Instant.now())
+                .build();
     }
 
     @Test
     @DisplayName("Test setting and getting ID")
     public void testSetAndGetId() {
         // Given
-        Integer id = 1;
+        Integer id = 2;
 
         // When
-        recipe.setId(id);
+        recipe = new Recipe.Builder()
+                .id(id)
+                .title(recipe.getTitle())
+                .description(recipe.getDescription())
+                .priceTag(recipe.getPriceTag())
+                .healthTag(recipe.getHealthTag())
+                .preferenceTag(recipe.getPreferenceTag())
+                .createdAt(recipe.getCreatedAt())
+                .build();
 
         // Then
         assertEquals(id, recipe.getId(), "The ID should match the value that was set.");
@@ -40,7 +55,15 @@ public class RecipeTest {
         String title = "Healthy Salad";
 
         // When
-        recipe.setTitle(title);
+        recipe = new Recipe.Builder()
+                .id(recipe.getId())
+                .title(title)
+                .description(recipe.getDescription())
+                .priceTag(recipe.getPriceTag())
+                .healthTag(recipe.getHealthTag())
+                .preferenceTag(recipe.getPreferenceTag())
+                .createdAt(recipe.getCreatedAt())
+                .build();
 
         // Then
         assertEquals(title, recipe.getTitle(), "The title should match the value that was set.");
@@ -53,7 +76,15 @@ public class RecipeTest {
         String description = "A delicious and healthy salad recipe.";
 
         // When
-        recipe.setDescription(description);
+        recipe = new Recipe.Builder()
+                .id(recipe.getId())
+                .title(recipe.getTitle())
+                .description(description)
+                .priceTag(recipe.getPriceTag())
+                .healthTag(recipe.getHealthTag())
+                .preferenceTag(recipe.getPreferenceTag())
+                .createdAt(recipe.getCreatedAt())
+                .build();
 
         // Then
         assertEquals(description, recipe.getDescription(), "The description should match the value that was set.");
@@ -66,7 +97,15 @@ public class RecipeTest {
         String priceTag = "$10";
 
         // When
-        recipe.setPriceTag(priceTag);
+        recipe = new Recipe.Builder()
+                .id(recipe.getId())
+                .title(recipe.getTitle())
+                .description(recipe.getDescription())
+                .priceTag(priceTag)
+                .healthTag(recipe.getHealthTag())
+                .preferenceTag(recipe.getPreferenceTag())
+                .createdAt(recipe.getCreatedAt())
+                .build();
 
         // Then
         assertEquals(priceTag, recipe.getPriceTag(), "The price tag should match the value that was set.");
@@ -79,7 +118,15 @@ public class RecipeTest {
         String healthTag = "Low Calories";
 
         // When
-        recipe.setHealthTag(healthTag);
+        recipe = new Recipe.Builder()
+                .id(recipe.getId())
+                .title(recipe.getTitle())
+                .description(recipe.getDescription())
+                .priceTag(recipe.getPriceTag())
+                .healthTag(healthTag)
+                .preferenceTag(recipe.getPreferenceTag())
+                .createdAt(recipe.getCreatedAt())
+                .build();
 
         // Then
         assertEquals(healthTag, recipe.getHealthTag(), "The health tag should match the value that was set.");
@@ -89,10 +136,18 @@ public class RecipeTest {
     @DisplayName("Test setting and getting Preference Tag")
     public void testSetAndGetPreferenceTag() {
         // Given
-        String preferenceTag = "Vegetarian";
+        String preferenceTag = "Vegan";
 
         // When
-        recipe.setPreferenceTag(preferenceTag);
+        recipe = new Recipe.Builder()
+                .id(recipe.getId())
+                .title(recipe.getTitle())
+                .description(recipe.getDescription())
+                .priceTag(recipe.getPriceTag())
+                .healthTag(recipe.getHealthTag())
+                .preferenceTag(preferenceTag)
+                .createdAt(recipe.getCreatedAt())
+                .build();
 
         // Then
         assertEquals(preferenceTag, recipe.getPreferenceTag(), "The preference tag should match the value that was set.");
@@ -105,7 +160,15 @@ public class RecipeTest {
         Instant createdAt = Instant.now();
 
         // When
-        recipe.setCreatedAt(createdAt);
+        recipe = new Recipe.Builder()
+                .id(recipe.getId())
+                .title(recipe.getTitle())
+                .description(recipe.getDescription())
+                .priceTag(recipe.getPriceTag())
+                .healthTag(recipe.getHealthTag())
+                .preferenceTag(recipe.getPreferenceTag())
+                .createdAt(createdAt)
+                .build();
 
         // Then
         assertEquals(createdAt, recipe.getCreatedAt(), "The createdAt timestamp should match the value that was set.");
