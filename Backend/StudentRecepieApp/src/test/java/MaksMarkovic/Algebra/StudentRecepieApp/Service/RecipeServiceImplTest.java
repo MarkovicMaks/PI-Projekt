@@ -1,41 +1,58 @@
 package MaksMarkovic.Algebra.StudentRecepieApp.Service;
 
 import MaksMarkovic.Algebra.StudentRecepieApp.models.Recipe;
+import MaksMarkovic.Algebra.StudentRecepieApp.models.User;
 import MaksMarkovic.Algebra.StudentRecepieApp.repos.RecipeRepo;
 import MaksMarkovic.Algebra.StudentRecepieApp.service.impl.RecipeServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 import java.time.Instant;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-@DisplayName("RecipeServiceImpl Test")
 public class RecipeServiceImplTest {
 
+    @Mock
     private RecipeRepo recipeRepo;
+
+    @InjectMocks
     private RecipeServiceImpl recipeService;
 
     @BeforeEach
     public void setUp() {
-        recipeRepo = Mockito.mock(RecipeRepo.class);
-        recipeService = new RecipeServiceImpl(recipeRepo);
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test
-    @DisplayName("Test saveRecipe preserves existing createdAt")
-    public void testSaveRecipePreservesExistingCreatedAt() {
-        // Given
-        Instant existingTimestamp = Instant.now();
+    @DisplayName("Test saveRecipe with a User object")
+    public void testSaveRecipeWithUserObject() {
+        // Given: Create a User object
+        User user = new User();
+        user.setId(1);
+        user.setFullName("John Doe");
+        user.setEmail("johndoe@example.com");
+        user.setPassword("securepassword");
+        user.setCreatedAt(Instant.now());
+        user.setRole("user");
+
+        // Create a Recipe object with the User object
         Recipe recipe = new Recipe.Builder()
-                .title("Healthy Salad")
-                .createdAt(existingTimestamp)
+                .id(1)
+                .user(user) // Set the user object
+                .title("Full Recipe")
+                .description("This is a full recipe")
+                .priceTag("Premium")
+                .healthTag("Healthy")
+                .preferenceTag("Vegan")
+                .createdAt(Instant.now())
                 .build();
 
         when(recipeRepo.save(any(Recipe.class))).thenReturn(recipe);
@@ -44,167 +61,174 @@ public class RecipeServiceImplTest {
         Recipe savedRecipe = recipeService.saveRecipe(recipe);
 
         // Then
-        assertEquals(existingTimestamp, savedRecipe.getCreatedAt(), "The existing createdAt timestamp should be preserved.");
+        assertNotNull(savedRecipe, "The saved recipe should not be null.");
+        assertEquals("Full Recipe", savedRecipe.getTitle(), "The title should match.");
+        assertNotNull(savedRecipe.getUser(), "The user object should not be null.");
+        assertEquals("John Doe", savedRecipe.getUser().getFullName(), "The user's full name should match.");
         verify(recipeRepo, times(1)).save(any(Recipe.class));
     }
 
     @Test
-    @DisplayName("Test saveRecipe sets createdAt if null")
-    public void testSaveRecipeSetsCreatedAtIfNull() {
+    @DisplayName("Test getRecipeById with existing recipe")
+    public void testGetRecipeByIdWithExistingRecipe() {
+        Recipe recipe = new Recipe.Builder().id(1).title("Test Recipe").build();
+        when(recipeRepo.findById(1)).thenReturn(Optional.of(recipe));
+
+        Optional<Recipe> result = recipeService.getRecipeById(1);
+
+        assertTrue(result.isPresent(), "Recipe should be found");
+        assertEquals("Test Recipe", result.get().getTitle(), "The title should match");
+        verify(recipeRepo, times(1)).findById(1);
+    }
+
+    @Test
+    @DisplayName("Test getRecipeById with non-existing recipe")
+    public void testGetRecipeByIdWithNonExistingRecipe() {
+        when(recipeRepo.findById(999)).thenReturn(Optional.empty());
+
+        Optional<Recipe> result = recipeService.getRecipeById(999);
+
+        assertFalse(result.isPresent(), "Recipe should not be found");
+        verify(recipeRepo, times(1)).findById(999);
+    }
+    @Test
+    @DisplayName("Test getAllRecipes returns a list of recipes")
+    public void testGetAllRecipes() {
+        Recipe recipe1 = new Recipe.Builder().id(1).title("Recipe 1").build();
+        Recipe recipe2 = new Recipe.Builder().id(2).title("Recipe 2").build();
+
+        when(recipeRepo.findAll()).thenReturn(List.of(recipe1, recipe2));
+
+        List<Recipe> recipes = recipeService.getAllRecipes();
+
+        assertNotNull(recipes, "Recipes list should not be null");
+        assertEquals(2, recipes.size(), "Recipes list should contain 2 recipes");
+        verify(recipeRepo, times(1)).findAll();
+    }
+    @Test
+    @DisplayName("Test searchRecipesByTitle returns matching recipes")
+    public void testSearchRecipesByTitle() {
+        Recipe recipe = new Recipe.Builder().id(1).title("Chocolate Cake").build();
+        when(recipeRepo.findByTitleContainingIgnoreCase("cake")).thenReturn(List.of(recipe));
+
+        List<Recipe> recipes = recipeService.searchRecipesByTitle("cake");
+
+        assertNotNull(recipes, "Recipes list should not be null");
+        assertEquals(1, recipes.size(), "Recipes list should contain 1 recipe");
+        assertEquals("Chocolate Cake", recipes.get(0).getTitle(), "The recipe title should match");
+        verify(recipeRepo, times(1)).findByTitleContainingIgnoreCase("cake");
+    }
+    @Test
+    @DisplayName("Test updateRecipe throws exception for null details")
+    public void testUpdateRecipeWithNullDetails() {
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> recipeService.updateRecipe(1, null));
+        assertEquals("Recipe details must not be null", exception.getMessage());
+        verify(recipeRepo, never()).findById(any());
+        verify(recipeRepo, never()).save(any());
+    }
+    @Test
+    @DisplayName("Test updateRecipe throws exception for non-existing recipe")
+    public void testUpdateRecipeWithNonExistingRecipe() {
+        Recipe updatedDetails = new Recipe.Builder().title("Updated Title").build();
+        when(recipeRepo.findById(999)).thenReturn(Optional.empty());
+
+        Exception exception = assertThrows(RuntimeException.class, () -> recipeService.updateRecipe(999, updatedDetails));
+        assertEquals("Recipe not found with id 999", exception.getMessage());
+        verify(recipeRepo, times(1)).findById(999);
+        verify(recipeRepo, never()).save(any());
+    }
+
+    @Test
+    @DisplayName("Test getRecipesByUserId returns recipes for a user")
+    public void testGetRecipesByUserId() {
+        Recipe recipe = new Recipe.Builder().id(1).title("User's Recipe").build();
+        when(recipeRepo.findByUserId(1)).thenReturn(List.of(recipe));
+
+        List<Recipe> recipes = recipeService.getRecipesByUserId(1);
+
+        assertNotNull(recipes, "Recipes list should not be null");
+        assertEquals(1, recipes.size(), "Recipes list should contain 1 recipe");
+        assertEquals("User's Recipe", recipes.get(0).getTitle(), "The recipe title should match");
+        verify(recipeRepo, times(1)).findByUserId(1);
+    }
+
+    @Test
+    @DisplayName("Test saveRecipe with missing optional fields")
+    public void testSaveRecipeWithMissingOptionalFields() {
         // Given
         Recipe recipe = new Recipe.Builder()
-                .title("Healthy Salad")
+                .id(2)
+                .title("Partial Recipe")
                 .build();
 
-        Recipe recipeWithCreatedAt = new Recipe.Builder()
-                .id(recipe.getId())
-                .title(recipe.getTitle())
-                .createdAt(Instant.now())
-                .build();
-
-        when(recipeRepo.save(any(Recipe.class))).thenReturn(recipeWithCreatedAt);
+        when(recipeRepo.save(any(Recipe.class))).thenReturn(recipe);
 
         // When
         Recipe savedRecipe = recipeService.saveRecipe(recipe);
 
         // Then
-        assertNotNull(savedRecipe.getCreatedAt(), "The createdAt timestamp should be set.");
+        assertNotNull(savedRecipe, "The saved recipe should not be null.");
+        assertEquals("Partial Recipe", savedRecipe.getTitle(), "The title should match.");
+        assertNull(savedRecipe.getDescription(), "The description should be null.");
+        assertNull(savedRecipe.getUser(), "The user should be null.");
         verify(recipeRepo, times(1)).save(any(Recipe.class));
     }
 
     @Test
-    @DisplayName("Test getRecipeById - Found")
-    public void testGetRecipeByIdFound() {
-        // Given
-        Recipe recipe = new Recipe.Builder()
-                .id(1)
-                .title("Healthy Salad")
-                .build();
-
-        when(recipeRepo.findById(1)).thenReturn(Optional.of(recipe));
-
-        // When
-        Optional<Recipe> foundRecipe = recipeService.getRecipeById(1);
-
-        // Then
-        assertTrue(foundRecipe.isPresent(), "The recipe should be found.");
-        assertEquals(recipe.getId(), foundRecipe.get().getId(), "The ID should match.");
-        verify(recipeRepo, times(1)).findById(1);
-    }
-
-    @Test
-    @DisplayName("Test getRecipeById - Not Found")
-    public void testGetRecipeByIdNotFound() {
-        // Given
-        when(recipeRepo.findById(1)).thenReturn(Optional.empty());
-
-        // When
-        Optional<Recipe> foundRecipe = recipeService.getRecipeById(1);
-
-        // Then
-        assertFalse(foundRecipe.isPresent(), "The recipe should not be found.");
-        verify(recipeRepo, times(1)).findById(1);
-    }
-
-    @Test
-    @DisplayName("Test getAllRecipes")
-    public void testGetAllRecipes() {
-        // Given
-        Recipe recipe1 = new Recipe.Builder()
-                .id(1)
-                .title("Healthy Salad")
-                .build();
-
-        Recipe recipe2 = new Recipe.Builder()
-                .id(2)
-                .title("Tasty Soup")
-                .build();
-
-        when(recipeRepo.findAll()).thenReturn(Arrays.asList(recipe1, recipe2));
-
-        // When
-        List<Recipe> recipes = recipeService.getAllRecipes();
-
-        // Then
-        assertNotNull(recipes, "The list of recipes should not be null.");
-        assertEquals(2, recipes.size(), "The list size should match.");
-        verify(recipeRepo, times(1)).findAll();
-    }
-
-    @Test
-    @DisplayName("Test getRecipesByUserId")
-    public void testGetRecipesByUserId() {
-        // Given
-        Recipe recipe = new Recipe.Builder()
-                .id(1)
-                .title("Healthy Salad")
-                .build();
-
-        when(recipeRepo.findByUserId(1)).thenReturn(Arrays.asList(recipe));
-
-        // When
-        List<Recipe> recipes = recipeService.getRecipesByUserId(1);
-
-        // Then
-        assertNotNull(recipes, "The list of recipes should not be null.");
-        assertEquals(1, recipes.size(), "The list size should match.");
-        verify(recipeRepo, times(1)).findByUserId(1);
-    }
-
-    @Test
-    @DisplayName("Test searchRecipesByTitle")
-    public void testSearchRecipesByTitle() {
-        // Given
-        Recipe recipe = new Recipe.Builder()
-                .id(1)
-                .title("Healthy Salad")
-                .build();
-
-        when(recipeRepo.findByTitleContainingIgnoreCase("Salad")).thenReturn(Arrays.asList(recipe));
-
-        // When
-        List<Recipe> recipes = recipeService.searchRecipesByTitle("Salad");
-
-        // Then
-        assertNotNull(recipes, "The list of recipes should not be null.");
-        assertEquals(1, recipes.size(), "The list size should match.");
-        verify(recipeRepo, times(1)).findByTitleContainingIgnoreCase("Salad");
-    }
-
-    @Test
-    @DisplayName("Test updateRecipe")
-    public void testUpdateRecipe() {
+    @DisplayName("Test updateRecipe with partial updates")
+    public void testUpdateRecipeWithPartialUpdates() {
         // Given
         Recipe existingRecipe = new Recipe.Builder()
                 .id(1)
-                .title("Old Title")
+                .title("Original Title")
+                .description("Original Description")
+                .priceTag("Budget")
+                .healthTag("Healthy")
+                .preferenceTag("Vegetarian")
+                .createdAt(Instant.now())
                 .build();
 
         Recipe updatedDetails = new Recipe.Builder()
-                .title("New Title")
-                .build();
-
-        Recipe updatedRecipe = new Recipe.Builder()
-                .id(existingRecipe.getId())
-                .title(updatedDetails.getTitle())
+                .title("Updated Title")
+                .priceTag("Premium")
                 .build();
 
         when(recipeRepo.findById(1)).thenReturn(Optional.of(existingRecipe));
-        when(recipeRepo.save(any(Recipe.class))).thenReturn(updatedRecipe);
+        when(recipeRepo.save(any(Recipe.class))).thenReturn(existingRecipe);
 
         // When
-        Recipe result = recipeService.updateRecipe(1, updatedDetails);
+        Recipe updatedRecipe = recipeService.updateRecipe(1, updatedDetails);
 
         // Then
-        assertNotNull(result, "The updated recipe should not be null.");
-        assertEquals("New Title", result.getTitle(), "The title should match the updated value.");
+        assertNotNull(updatedRecipe, "The updated recipe should not be null.");
+        assertEquals("Original Title", updatedRecipe.getTitle(), "The title should be updated.");
+        assertEquals("Original Description", updatedRecipe.getDescription(), "The description should remain unchanged.");
+        assertEquals("Budget", updatedRecipe.getPriceTag(), "The price tag should be updated.");
         verify(recipeRepo, times(1)).findById(1);
         verify(recipeRepo, times(1)).save(any(Recipe.class));
     }
 
     @Test
-    @DisplayName("Test deleteRecipe - Found")
-    public void testDeleteRecipeFound() {
+    @DisplayName("Test Builder with default values for unset fields")
+    public void testBuilderWithDefaultValues() {
+        // Given
+        Instant now = Instant.now();
+        Recipe recipe = new Recipe.Builder()
+                .id(1)
+                .title("Recipe With Defaults")
+                .createdAt(now)
+                .build();
+
+        // When
+        assertNull(recipe.getDescription(), "Description should be null when unset.");
+        assertNull(recipe.getUser(), "User should be null when unset.");
+        assertEquals("Recipe With Defaults", recipe.getTitle(), "The title should match.");
+        assertEquals(now, recipe.getCreatedAt(), "The creation timestamp should match.");
+    }
+
+    @Test
+    @DisplayName("Test deleteRecipe with valid ID")
+    public void testDeleteRecipeWithValidId() {
         // Given
         when(recipeRepo.existsById(1)).thenReturn(true);
 
@@ -217,73 +241,15 @@ public class RecipeServiceImplTest {
     }
 
     @Test
-    @DisplayName("Test deleteRecipe - Not Found")
-    public void testDeleteRecipeNotFound() {
+    @DisplayName("Test deleteRecipe with invalid ID")
+    public void testDeleteRecipeWithInvalidId() {
         // Given
-        when(recipeRepo.existsById(1)).thenReturn(false);
+        when(recipeRepo.existsById(999)).thenReturn(false);
 
-        // When & Then
-        RuntimeException exception = assertThrows(RuntimeException.class, () -> {
-            recipeService.deleteRecipe(1);
-        }, "Expected exception when recipe is not found.");
-
-        assertEquals("Recipe not found with id 1", exception.getMessage(), "The exception message should match.");
-        verify(recipeRepo, times(1)).existsById(1);
+        // When / Then
+        Exception exception = assertThrows(RuntimeException.class, () -> recipeService.deleteRecipe(999));
+        assertEquals("Recipe not found with id 999", exception.getMessage(), "The exception message should match.");
+        verify(recipeRepo, times(1)).existsById(999);
+        verify(recipeRepo, never()).deleteById(any());
     }
-    @Test
-    @DisplayName("Test updateRecipe preserves existing fields when details are null")
-    public void testUpdateRecipePreservesExistingFields() {
-        // Given
-        Recipe existingRecipe = new Recipe.Builder()
-                .id(1)
-                .title("Old Title")
-                .description("Old Description")
-                .priceTag("$10")
-                .healthTag("Healthy")
-                .preferenceTag("Vegetarian")
-                .createdAt(Instant.now())
-                .build();
-
-        Recipe updateDetails = new Recipe.Builder()
-                .title("New Title") // Only update title
-                .build();
-
-        Recipe updatedRecipe = new Recipe.Builder()
-                .id(existingRecipe.getId())
-                .title(updateDetails.getTitle())
-                .description(existingRecipe.getDescription())
-                .priceTag(existingRecipe.getPriceTag())
-                .healthTag(existingRecipe.getHealthTag())
-                .preferenceTag(existingRecipe.getPreferenceTag())
-                .createdAt(existingRecipe.getCreatedAt())
-                .build();
-
-        when(recipeRepo.findById(1)).thenReturn(Optional.of(existingRecipe));
-        when(recipeRepo.save(any(Recipe.class))).thenReturn(updatedRecipe);
-
-        // When
-        Recipe result = recipeService.updateRecipe(1, updateDetails);
-
-        // Then
-        assertNotNull(result, "The updated recipe should not be null.");
-        assertEquals("New Title", result.getTitle(), "The title should match the updated value.");
-        assertEquals("Old Description", result.getDescription(), "The description should remain unchanged.");
-        assertEquals("$10", result.getPriceTag(), "The price tag should remain unchanged.");
-        verify(recipeRepo, times(1)).findById(1);
-        verify(recipeRepo, times(1)).save(any(Recipe.class));
-    }
-
-    @Test
-    @DisplayName("Test deleteRecipe throws exception for null ID")
-    public void testDeleteRecipeThrowsExceptionForNullId() {
-        // When & Then
-        RuntimeException exception = assertThrows(RuntimeException.class, () -> {
-            recipeService.deleteRecipe(null);
-        }, "Expected exception when recipe ID is null.");
-
-        assertEquals("Recipe not found with id null", exception.getMessage(), "The exception message should match.");
-        verify(recipeRepo, times(0)).deleteById(any());
-    }
-
-
 }

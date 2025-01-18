@@ -59,6 +59,10 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public Recipe updateRecipe(Integer id, Recipe recipeDetails) {
+        if (recipeDetails == null) {
+            throw new IllegalArgumentException("Recipe details must not be null");
+        }
+
         return recipeRepo.findById(id).map(existingRecipe -> {
             // Use Builder to create an updated recipe while preserving existing fields
             Recipe updatedRecipe = new Recipe.Builder()
@@ -75,6 +79,7 @@ public class RecipeServiceImpl implements RecipeService {
             return recipeRepo.save(updatedRecipe);
         }).orElseThrow(() -> new RuntimeException("Recipe not found with id " + id));
     }
+
 
     @Override
     public void deleteRecipe(Integer id) {

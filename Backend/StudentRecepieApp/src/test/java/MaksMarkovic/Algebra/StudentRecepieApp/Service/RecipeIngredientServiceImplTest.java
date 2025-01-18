@@ -72,7 +72,6 @@ public class RecipeIngredientServiceImplTest {
     }
 
     @Test
-    @DisplayName("Test getRecipeIngredientById - Not Found")
     public void testGetRecipeIngredientByIdNotFound() {
         // Given
         RecipeIngredientId id = new RecipeIngredientId();
@@ -88,6 +87,8 @@ public class RecipeIngredientServiceImplTest {
         assertFalse(foundRecipeIngredient.isPresent(), "The RecipeIngredient should not be found.");
         verify(recipeIngredientRepo, times(1)).findById(id);
     }
+
+
 
     @Test
     @DisplayName("Test getAllRecipeIngredients")
