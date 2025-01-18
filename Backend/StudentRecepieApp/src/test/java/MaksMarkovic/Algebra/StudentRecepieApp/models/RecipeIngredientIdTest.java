@@ -101,4 +101,17 @@ public class RecipeIngredientIdTest {
         assertNull(recipeIngredientId.getRecipeId(), "The Recipe ID should be null when using the no-args constructor.");
         assertNull(recipeIngredientId.getIngredientId(), "The Ingredient ID should be null when using the no-args constructor.");
     }
+
+    @Test
+    @DisplayName("Test equals() with null")
+    public void testEqualsWithNull() {
+        // Given
+        RecipeIngredientId id = new RecipeIngredientId();
+        id.setRecipeId(1);
+        id.setIngredientId(2);
+
+        // When & Then
+        assertNotEquals(id, null, "A RecipeIngredientId object should not be equal to null.");
+    }
+
 }
