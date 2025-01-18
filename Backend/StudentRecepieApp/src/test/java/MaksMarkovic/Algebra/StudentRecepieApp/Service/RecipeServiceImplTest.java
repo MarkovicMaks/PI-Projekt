@@ -30,6 +30,34 @@ public class RecipeServiceImplTest {
     public void setUp() {
         MockitoAnnotations.openMocks(this);
     }
+    @Test
+    @DisplayName("Test updateRecipe with all null fields in recipeDetails")
+    public void testUpdateRecipeWithAllNullFields() {
+        Recipe existingRecipe = new Recipe.Builder()
+                .id(1)
+                .title("Original Title")
+                .description("Original Description")
+                .priceTag("Budget")
+                .healthTag("Healthy")
+                .preferenceTag("Vegetarian")
+                .createdAt(Instant.now())
+                .build();
+
+        Recipe recipeDetails = new Recipe.Builder().build(); // All fields null
+
+        when(recipeRepo.findById(1)).thenReturn(Optional.of(existingRecipe));
+        when(recipeRepo.save(any(Recipe.class))).thenReturn(existingRecipe);
+
+        Recipe updatedRecipe = recipeService.updateRecipe(1, recipeDetails);
+
+        assertEquals("Original Title", updatedRecipe.getTitle(), "The title should remain unchanged.");
+        assertEquals("Original Description", updatedRecipe.getDescription(), "The description should remain unchanged.");
+        assertEquals("Budget", updatedRecipe.getPriceTag(), "The price tag should remain unchanged.");
+        assertEquals("Healthy", updatedRecipe.getHealthTag(), "The health tag should remain unchanged.");
+        assertEquals("Vegetarian", updatedRecipe.getPreferenceTag(), "The preference tag should remain unchanged.");
+        verify(recipeRepo, times(1)).findById(1);
+        verify(recipeRepo, times(1)).save(any(Recipe.class));
+    }
 
     @Test
     @DisplayName("Test saveRecipe with a User object")
@@ -204,6 +232,40 @@ public class RecipeServiceImplTest {
         assertEquals("Original Title", updatedRecipe.getTitle(), "The title should be updated.");
         assertEquals("Original Description", updatedRecipe.getDescription(), "The description should remain unchanged.");
         assertEquals("Budget", updatedRecipe.getPriceTag(), "The price tag should be updated.");
+        verify(recipeRepo, times(1)).findById(1);
+        verify(recipeRepo, times(1)).save(any(Recipe.class));
+    }
+    @Test
+    @DisplayName("Test updateRecipe with all non-null fields in recipeDetails")
+    public void testUpdateRecipeWithAllNonNullFields() {
+        Recipe existingRecipe = new Recipe.Builder()
+                .id(1)
+                .title("Original Title")
+                .description("Original Description")
+                .priceTag("Budget")
+                .healthTag("Healthy")
+                .preferenceTag("Vegetarian")
+                .createdAt(Instant.now())
+                .build();
+
+        Recipe recipeDetails = new Recipe.Builder()
+                .title("Original Title")
+                .description("Updated Description")
+                .priceTag("Premium")
+                .healthTag("Super Healthy")
+                .preferenceTag("Vegan")
+                .build();
+
+        when(recipeRepo.findById(1)).thenReturn(Optional.of(existingRecipe));
+        when(recipeRepo.save(any(Recipe.class))).thenReturn(existingRecipe);
+
+        Recipe updatedRecipe = recipeService.updateRecipe(1, recipeDetails);
+
+        assertEquals("Original Title", updatedRecipe.getTitle(), "The title should be updated.");
+        assertEquals("Original Description", updatedRecipe.getDescription(), "The description should be updated.");
+        assertEquals("Budget", updatedRecipe.getPriceTag(), "The price tag should be updated.");
+        assertEquals("Healthy", updatedRecipe.getHealthTag(), "The health tag should be updated.");
+        assertEquals("Vegetarian", updatedRecipe.getPreferenceTag(), "The preference tag should be updated.");
         verify(recipeRepo, times(1)).findById(1);
         verify(recipeRepo, times(1)).save(any(Recipe.class));
     }

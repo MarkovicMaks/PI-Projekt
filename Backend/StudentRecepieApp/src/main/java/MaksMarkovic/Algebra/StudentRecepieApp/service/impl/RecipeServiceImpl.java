@@ -36,7 +36,6 @@ public class RecipeServiceImpl implements RecipeService {
 
         return recipeRepo.save(builtRecipe);
     }
-
     @Override
     public Optional<Recipe> getRecipeById(Integer id) {
         return recipeRepo.findById(id);
@@ -51,7 +50,6 @@ public class RecipeServiceImpl implements RecipeService {
     public List<Recipe> getRecipesByUserId(Integer userId) {
         return recipeRepo.findByUserId(userId);
     }
-
     @Override
     public List<Recipe> searchRecipesByTitle(String title) {
         return recipeRepo.findByTitleContainingIgnoreCase(title);
@@ -64,7 +62,6 @@ public class RecipeServiceImpl implements RecipeService {
         }
 
         return recipeRepo.findById(id).map(existingRecipe -> {
-            // Use Builder to create an updated recipe while preserving existing fields
             Recipe updatedRecipe = new Recipe.Builder()
                     .id(existingRecipe.getId())
                     .user(existingRecipe.getUser())
