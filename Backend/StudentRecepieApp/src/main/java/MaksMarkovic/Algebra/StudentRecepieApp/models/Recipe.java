@@ -32,10 +32,8 @@ public class Recipe {
     @Column(name = "created_at")
     private Instant createdAt;
 
-    // Public no-arg constructor for JPA
     public Recipe() {}
 
-    // Private constructor for Builder
     private Recipe(Builder builder) {
         this.id = builder.id;
         this.user = builder.user;
@@ -47,7 +45,6 @@ public class Recipe {
         this.createdAt = builder.createdAt;
     }
 
-    // Getters (No Setters to maintain immutability)
     public Integer getId() {
         return id;
     }
@@ -80,7 +77,6 @@ public class Recipe {
         return createdAt;
     }
 
-    // Builder class remains the same
     public static class Builder {
         private Integer id;
         private User user;
